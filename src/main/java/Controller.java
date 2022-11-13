@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Controller {
 
     Database database = new Database();
@@ -7,19 +5,27 @@ public class Controller {
         database.addPersonToDatabase(personFirstName,personMiddleName,personLastName,personBirthYear,personHeight,personGender);
     }
 
-    public String printDatabase() {
-        return database.printDatabase();
+    public void printDatabase() {
+        database.printDatabase();
     }
 
-    public void getPersonList() {
-        database.getPersonList();
+    public void printSearchList(){
+        database.printSearchList();
     }
+
+
 
     public int personListSize() {
         return database.personListSize();
     }
 
-    public ArrayList<Person> manuelSearchUsingString(String manuelSearchString) {
-        return database.manuelSearchUsingString(manuelSearchString);
+    public void manuelSearchSurName(String manuelSearchString) {
+        database.manuelSearchSurName(manuelSearchString);
+    }
+
+
+    public void manuelSearchMiddleName(String manuelSearchString) {
+        database.manuelSearchMiddleName(manuelSearchString);
+
     }
 }

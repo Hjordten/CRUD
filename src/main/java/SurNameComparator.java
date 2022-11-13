@@ -1,7 +1,6 @@
-import java.awt.event.ComponentListener;
 import java.util.Comparator;
 
-public class NameComparator implements Comparator <Person> {
+public class SurNameComparator implements Comparator <Person> {
 
     @Override
     public int compare(Person p1, Person p2){

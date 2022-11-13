@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -64,28 +63,36 @@ public class UserInterface {
     public void manuelSearch() {
 
         manuelSearchOptions();
-
         String manuelSearchString = "";
-        double manuelSearchDouble = 0.0;
-        int manuelSearchInt = 0;
-        char manuelSearchChar = 'i';
 
         switch (readInt()){
             case 1:
-                System.out.println("Please enter the name you wanna search for: ");
+                System.out.println("Enter the sur name you wanna search for: ");
                 manuelSearchString = sc.nextLine();
-                System.out.println(manuelSearchUsingString(manuelSearchString));
+                manuelSearchSurName(manuelSearchString);
+                controller.printSearchList();
+                break;
             case 2:
+                System.out.println("Enter the middle name you wanna search for: ");
+                manuelSearchString = sc.nextLine();
+                controller.manuelSearchMiddleName(manuelSearchString);
+                controller.printSearchList();
+                break;
             case 3:
+                break;
             case 4:
+                break;
             case 5:
+                break;
             case 6:
+                break;
             case 9:
+                break;
         }
     }
 
-    public ArrayList<Person> manuelSearchUsingString(String manuelSearchString) {
-        return controller.manuelSearchUsingString(manuelSearchString);
+    public void manuelSearchSurName(String manuelSearchString) {
+        controller.manuelSearchSurName(manuelSearchString);
     }
 
     public void manuelSearchOptions() {

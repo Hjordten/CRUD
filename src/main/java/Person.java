@@ -1,6 +1,6 @@
 public class Person {
     private String firstName;
-    private String secondName;
+    private String middleName;
     private String lastName;
     private int birthYear;
     private double height;
@@ -8,7 +8,7 @@ public class Person {
 
     public Person(String firstName, String secondName, String lastName, int birthYear, double height, char gender){
         this.firstName = firstName;
-        this.secondName = secondName;
+        this.middleName = secondName;
         this.lastName = lastName;
         this.birthYear = birthYear;
         this.height = height;
@@ -19,8 +19,8 @@ public class Person {
         return firstName;
     }
 
-    public String getSecondName(){
-        return secondName;
+    public String getMiddleName(){
+        return middleName;
     }
     public String getLastName(){
         return lastName;
@@ -42,8 +42,8 @@ public class Person {
         this.firstName = firstName;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public void setLastName(String lastName){
@@ -64,6 +64,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "firstName: " + firstName + " " +  "secondName: " + secondName + " " + "lastName: " + lastName + " " + "birthYear: " + birthYear + "height: " + height + "gender: " + gender + "\n";
+        return "firstName: " + firstName + " " +  "middleName: " + middleName + " " + "lastName: " + lastName + " " + "birthYear: " + birthYear + "height: " + height + "gender: " + gender + "\n";
     }
 }
