@@ -8,10 +8,10 @@ public class Database {
     ArrayList<Person> searchResult = new ArrayList<>();
 
     public Database() {
-        personList.add(new Person("Testd", "testb", "test", 1980, 1.89, 'd'));
-        personList.add(new Person("Testa", "testa", "test", 1980, 1.89, 'd'));
-        personList.add(new Person("Testd", "testc", "test", 1980, 1.89, 'd'));
-        personList.add(new Person("Testc", "testd", "test", 1980, 1.89, 'd'));
+        personList.add(new Person("Testd", "testb", "testb", 1980, 1.89, 'M'));
+        personList.add(new Person("Testa", "testa", "testa", 1990, 2, 'M'));
+        personList.add(new Person("Testd", "testc", "testd", 1995, 1.5, 'F'));
+        personList.add(new Person("Testc", "testd", "testc", 2000, 1.90, 'O'));
     }
 
     public ArrayList<Person> getPersonList() {
@@ -43,10 +43,6 @@ public class Database {
         }
     }
 
-    public ArrayList<Person> getSearchResult() {
-        return searchResult;
-    }
-
     public void printSearchList() {
         for (Person p : searchResult) {
             System.out.println(p);
@@ -56,13 +52,60 @@ public class Database {
     public void manuelSearchMiddleName(String manuelSearchString) {
         searchResult.clear();
         for (Person p : personList) {
-            if (p.getFirstName().toLowerCase().contains(manuelSearchString.toLowerCase())) {
+            if (p.getMiddleName().toLowerCase().contains(manuelSearchString.toLowerCase())) {
                 searchResult.add(p);
             }
             Collections.sort(searchResult, Comparator.comparing(Person::getMiddleName));
         }
     }
 
+    public void manuelSearchLastName(String manuelSearchString) {
+        searchResult.clear();
+        for (Person p : personList) {
+            if (p.getLastName().toLowerCase().contains(manuelSearchString.toLowerCase())) {
+                searchResult.add(p);
+            }
+            Collections.sort(searchResult, Comparator.comparing(Person::getLastName));
+        }
+    }
+
+    public void manuelSearchUsingBirthYear(int birthYear) {
+        searchResult.clear();
+        for (Person p : personList) {
+            if (p.getBirthYear() == birthYear) {
+                searchResult.add(p);
+            }
+        }
+    }
+
+    public void manuelSearchUsingHeight(double height) {
+        searchResult.clear();
+        for (Person p : personList) {
+            if (p.getHeight() == height) {
+                searchResult.add(p);
+            }
+        }
+    }
+
+    public void manuelSearchUsingChar(char gender) {
+        searchResult.clear();
+        for (Person p : personList) {
+            if (p.getGender() == gender) {
+                searchResult.add(p);
+            }
+
+        }
+    }
+
+    public void removePerson(int number) {
+        personList.remove(number);
+    }
 }
+
+
+
+
+
+
 
 

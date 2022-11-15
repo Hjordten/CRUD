@@ -1,3 +1,5 @@
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -15,7 +17,7 @@ public class UserInterface {
                     addPersonToDatabase();
                     break;
                 case 2:
-                    if (controller.personListSize() < 0){
+                    if (controller.personListSize() < 0) {
                         System.out.println("There are currently no persons registered in the database.");
                         break;
                     }
@@ -25,16 +27,16 @@ public class UserInterface {
                     manuelSearch();
                     break;
                 case 4:
-                    //removeSuperhero();
+                    removePerson();
                     break;
                 case 5:
-                    //databaseSortCriteria();
+                    sortUsingOneCriteriaUserChoice();
                     break;
                 case 6:
-                    //controller.edit
+                    sortUsingTwoCriteriaUserChoice();
                     break;
                 case 7:
-                    //sortByTwoCriteria();
+                    //
                     break;
                 case 9:
                     System.out.println("Closing database");
@@ -46,30 +48,98 @@ public class UserInterface {
         }
     }
 
+    private void sortUsingTwoCriteriaUserChoice() {
+        System.out.println("dasd");
+    }
+
+    private void SortUsingCriteriaOptions() {
+        System.out.println("""
+                1. Sort using first name.
+                2. Sort using middle name.
+                3. Sort using last name.
+                4. Sort using birth year.
+                5. Sort using height.
+                6. Sort using gender.
+                9. Return to main menu.
+                """);
+    }
+
+    private void sortUsingOneCriteriaUserChoice(){
+        SortUsingCriteriaOptions();
+        Comparator<Person> comparator = null;
+        switch (readInt()){
+            case 1:
+                comparator = new SurNameComparator();
+                break;
+            case 2:
+                comparator = new MiddleNameComparator();
+                break;
+            case 3:
+                comparator = new LastNameComparator();
+                break;
+            case 4:
+                comparator = new BirthYearComparator();
+                break;
+            case 5:
+                comparator = new HeightComparator();
+                break;
+            case 6:
+                comparator = new GenderComparator();
+                break;
+            case 9:
+                createUI();
+                break;
+
+        }
+
+        Collections.sort(controller.getPersonList(), comparator);
+        controller.printDatabase();
+    }
+
+    private void removePerson() {
+        for (int i = 0; i < controller.personListSize(); i++) {
+            System.out.println(i + ":" + controller.getPersonList().get(i));
+        }
+        try {
+
+            System.out.println("Please enter the number of which person you wanna remove: ");
+
+            int number = readInt();
+
+
+            controller.removePerson(number);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Not a valid number. Returning to main menu");
+        }
+    }
+
+
     private void mainMenuOptions() {
         System.out.println("""
-                    Please type the number of which option you wanna use:
-                    1. create superhero(es).
-                    2. Print database
-                    3. Manuel search
-                    4. Remove superhero.
-                    5. Search for superhero using parameter.
-                    6. Edit superhero.
-                    7. Search for superhero using two parameters.
-                    9. Exit
-                    """);
+                Please type the number of which option you wanna use:
+                1. create superhero(es).
+                2. Print database
+                3. Manuel search
+                4. Remove superhero.
+                5. Search for superhero using parameter.
+                6. Edit superhero.
+                7. Search for superhero using two parameters.
+                9. Exit
+                """);
     }
 
     public void manuelSearch() {
 
-        manuelSearchOptions();
+        searchOptionsMenu();
         String manuelSearchString = "";
+        int birthYear;
+        double height;
 
-        switch (readInt()){
+        switch (readInt()) {
             case 1:
                 System.out.println("Enter the sur name you wanna search for: ");
                 manuelSearchString = sc.nextLine();
-                manuelSearchSurName(manuelSearchString);
+                controller.manuelSearchSurName(manuelSearchString);
                 controller.printSearchList();
                 break;
             case 2:
@@ -79,33 +149,59 @@ public class UserInterface {
                 controller.printSearchList();
                 break;
             case 3:
+                System.out.println("Enter the last name you wanna search for: ");
+                manuelSearchString = sc.nextLine();
+                controller.manuelSearchLastName(manuelSearchString);
+                controller.printSearchList();
                 break;
             case 4:
+                System.out.println("Enter the birth year you wanna search for: ");
+                birthYear = readInt();
+                controller.manuelSearchUsingBirthYear(birthYear);
+                controller.printSearchList();
                 break;
             case 5:
+                System.out.println("Enter the height you wanna search for: ");
+                height = readDouble();
+                controller.manuelSearchUsingHeight(height);
+                controller.printSearchList();
                 break;
             case 6:
+                System.out.println("Please enter the gender and press ENTER: \nPress M for male.\nPress F for female.\nPress O for other.");
+                char genderSearch = sc.next().charAt(0);
+                if (genderSearch == 'M') {
+                    char genderSearchMale = genderSearch;
+                    controller.manuelSearchUsingChar(genderSearchMale);
+                    controller.printSearchList();
+                } else if (genderSearch == 'F') {
+                    char genderSearchFemale = genderSearch;
+                    controller.manuelSearchUsingChar(genderSearchFemale);
+                    controller.printSearchList();
+                } else if (genderSearch == 'O') {
+                    char genderSearchOther = genderSearch;
+                    controller.manuelSearchUsingChar(genderSearchOther);
+                    controller.printSearchList();
+                } else {
+                    System.out.println("Not a valid option. Returning to main menu.");
+                }
                 break;
             case 9:
-                break;
+                createUI();
+
         }
     }
 
-    public void manuelSearchSurName(String manuelSearchString) {
-        controller.manuelSearchSurName(manuelSearchString);
-    }
-
-    public void manuelSearchOptions() {
+    public void searchOptionsMenu() {
         System.out.println("""
-                    Please type the number of which option you wanna use:
-                    1. Search using sur name.
-                    2. Search using middle name.
-                    3. Search using last name.
-                    4. Search using birth year.
-                    5. Search using height.
-                    6. Search using gender.
-                    9. Return to previous menu.
-                    """);
+                Please type the number of which option you wanna use:
+                1. Search using sur name.
+                2. Search using middle name.
+                3. Search using last name.
+                4. Search using birth year.
+                5. Search using height.
+                6. Search using gender.
+                9. Return to previous menu.
+                """);
     }
 
     public void addPersonToDatabase() {
