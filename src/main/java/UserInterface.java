@@ -36,7 +36,7 @@ public class UserInterface {
                     sortUsingTwoCriteriaUserChoice();
                     break;
                 case 7:
-                    //
+                    editPersons();
                     break;
                 case 9:
                     System.out.println("Closing database");
@@ -64,10 +64,10 @@ public class UserInterface {
                 """);
     }
 
-    private void sortUsingOneCriteriaUserChoice(){
+    private void sortUsingOneCriteriaUserChoice() {
         SortUsingCriteriaOptions();
         Comparator<Person> comparator = null;
-        switch (readInt()){
+        switch (readInt()) {
             case 1:
                 comparator = new SurNameComparator();
                 break;
@@ -116,14 +116,15 @@ public class UserInterface {
 
     private void mainMenuOptions() {
         System.out.println("""
+                                
                 Please type the number of which option you wanna use:
                 1. create superhero(es).
                 2. Print database
                 3. Manuel search
                 4. Remove superhero.
                 5. Search for superhero using parameter.
-                6. Edit superhero.
-                7. Search for superhero using two parameters.
+                6. Search for superhero using two parameters.
+                7. Edit superhero. 
                 9. Exit
                 """);
     }
@@ -204,7 +205,7 @@ public class UserInterface {
                 """);
     }
 
-    public void addPersonToDatabase() {
+    private void addPersonToDatabase() {
         System.out.println(" ");
         System.out.println("Time to create a new person.\nFirst off, please type the sur name of the person and press ENTER: ");
         String personFirstName = sc.nextLine();
@@ -216,7 +217,6 @@ public class UserInterface {
         System.out.println("You have chosen middle name to be: " + personMiddleName);
         System.out.println(" ");
 
-        sc.nextLine();
 
         System.out.println("Please enter the last name of the person.");
         String personLastName = sc.nextLine();
@@ -235,7 +235,7 @@ public class UserInterface {
         System.out.println("");
 
         System.out.println("Please enter the gender and press ENTER: \nPress M for male.\nPress F for female.\nPress O for other.");
-        char personGender = sc.next().charAt(0);
+        char personGender = 'O';
         if (personGender == 'M') {
             System.out.println("You have selected gender to be: " + personGender);
         } else if (personGender == 'F') {
@@ -247,6 +247,77 @@ public class UserInterface {
         }
 
         controller.addPersonToDatabase(personFirstName, personMiddleName, personLastName, personBirthYear, personHeight, personGender);
+    }
+
+
+    public void editPersons() {
+        try {
+            System.out.println("Enter the number of which person you wanna edit: ");
+            for (int i = 0; i < controller.getPersonList().size(); i++) {
+                System.out.println(i + 1 + ":" + controller.getPersonList().get(i));
+            }
+            Scanner sc = new Scanner(System.in);
+            int number = readInt();
+
+
+            Person editPerson = controller.getPersonList().get(number - 1);
+            System.out.println("Adjusting following person " + editPerson);
+
+
+            System.out.println("Edit data and press ENTER. If you do not wish to edit any data press ENTER");
+            System.out.println("Currently editing first name: " + editPerson.getFirstName());
+            String personNewFirstName = sc.nextLine();
+            if (!personNewFirstName.isEmpty()) {
+                editPerson.setFirstName(personNewFirstName);
+            }
+
+            System.out.println("Edit data and press ENTER. If you do not wish to edit any data press ENTER");
+            System.out.println("Currently editing middle name: " + editPerson.getMiddleName());
+            String personNewMiddleName = sc.nextLine();
+            if (!personNewMiddleName.isEmpty()) {
+                editPerson.setMiddleName(personNewMiddleName);
+            }
+
+            System.out.println("Edit data and press ENTER. If you do not wish to edit any data press ENTER");
+            System.out.println("Currently editing last name: " + editPerson.getLastName());
+            String personNewLastName = sc.nextLine();
+            if (!personNewLastName.isEmpty()) {
+                editPerson.setLastName(personNewLastName);
+            }
+
+            System.out.println("Edit data and press ENTER. If you do not wish to edit any data type 0 and press ENTER");
+            System.out.println("Currently editing birth year: " + editPerson.getBirthYear());
+            int personNewBirthYear = readInt();
+            if (personNewBirthYear > 0) {
+                editPerson.setBirthYear(personNewBirthYear);
+                whiteSpace();
+            } else {
+                whiteSpace();
+            }
+
+            System.out.println("Edit data and press ENTER. If you do not wish to edit any data type 0 and press ENTER");
+            System.out.println("Currently editing height: " + editPerson.getHeight());
+            double personNewHeight = readDouble();
+            if (personNewHeight > 0.0) {
+                editPerson.setHeight(personNewHeight);
+                whiteSpace();
+            } else {
+                whiteSpace();
+            }
+
+            System.out.println("Edit data and press ENTER. If you do not wish to edit any data press ENTER");
+            System.out.println("Currently editing gender: " + editPerson.getGender());
+            System.out.println("Type 1 and press enter for Male. \nType 2 and press enter for Female. \nType 3 and press enter for Other.");
+            switch (readInt()) {
+                case 1 -> editPerson.setGender('M');
+                case 2 -> editPerson.setGender('F');
+                case 3 -> editPerson.setGender('O');
+                default -> System.out.println("No changes made to gender");
+            }
+
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Not a valid person to edit, returning to main menu");
+        }
     }
 
 
@@ -289,6 +360,10 @@ public class UserInterface {
         }
         while (validateDouble);
         return doubleValue;
+    }
+
+    private void whiteSpace() {
+        System.out.println(" ");
     }
 }
 
